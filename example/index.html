@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>InputRule Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../src/jquery.inputrule.js"></script>
+</head>
+<body>
+  <input type="text" id="namaText" placeholder="Nama Lengkap" />
+  <input type="text" id="namaHidden" readonly placeholder="Terisi otomatis" />
+
+  <script>
+    $('#namaText')
+      .InputRuleChain()
+      .required()
+      .alphabet(true)
+      .number(false)
+      .noSpecialChar(false)
+      .maxlength(50)
+      .then((val) => {
+        $('#namaHidden').val(val.toUpperCase());
+      });
+  </script>
+</body>
+</html>
