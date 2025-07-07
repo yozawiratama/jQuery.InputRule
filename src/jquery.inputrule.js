@@ -2,6 +2,7 @@
   function InputRuleChain($input) {
     this.$input = $input;
     this._rules = {};
+    this._trim = false;
     this._afterInput = null;
   }
 
@@ -41,6 +42,11 @@
     return this;
   };
 
+  InputRuleChain.prototype.trim = function (val = true) {
+    this._trim = val;
+    return this;
+  };
+
   InputRuleChain.prototype.regex = function (val) {
     this._rules.regex = val;
     return this;
@@ -61,6 +67,7 @@
 
     this.$input.on('input', () => {
       let val = this.$input.val();
+      if (this._trim) val = val.trim(); 
 
       if (this._rules.alphanumeric === true) {
         val = val.replace(/[^a-zA-Z0-9\s]/g, '');
@@ -96,6 +103,8 @@
   InputRuleChain.prototype.validate = function (val = null) {
     if (val === null) val = this.$input.val();
     const name = this.$input.attr('name') || this.$input.attr('id') || 'Field';
+
+    if (this._trim) val = val.trim(); 
 
     if (this._rules.required && val.trim() === '')
       return `${name} wajib diisi.`;
